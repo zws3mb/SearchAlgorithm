@@ -22,4 +22,4 @@ def onecount(value):
 # print '\t%b'%(0b01011)
 # print bin((int('01011',2)))
 # print bin(int(0b101)^int(0b01011))
-print onecount(int('1100',2)^int('11',2))
+print int('110001000',2).bit_length()-int('11',2).bit_length()

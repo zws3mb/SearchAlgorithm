@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1402947111601.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A26FE789",
+    "lastKnownWriteTime" : 7741240723082584096,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "states",
+        "contentUrl" : "content?title=states&file=d8b157e616044df6a1516d40d5ec43f3.htm",
+        "displayedObservations" : 50,
+        "displayedVariables" : 11,
+        "totalObservations" : 50,
+        "variables" : 10
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

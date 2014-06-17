@@ -22,6 +22,7 @@ def onecount(value):
         count=count+1;
     return count
 KLENGTH=2
+#infile=open('custom2.txt','r')
 infile=open('sampleoutput2.txt','r')
 symb2freq=defaultdict()
 for line in infile:
@@ -51,7 +52,7 @@ for eachLine in names:
         firsts[index]=first.strip().replace('-','').replace('\'','')
 temp=0
 #print firsts
-Q="ANN"
+Q="ZACHARY"
 qcode=list()
 for i in range(len(Q)):
     if Q[i:i+KLENGTH] in code:
@@ -74,81 +75,97 @@ for name in firsts.values():
             #temp=temp+int(code[name[i:i+2]]).bit_length()
     #outfile.write('%s\n'%(temp))
     temp=0
-#print encode
+# for key in sorted(code, key=code.get, reverse=True):
+#     print key+' '+code[key]
 #print qcode
 val=0
-min=None
+min=0
 results=dict()
-print encode['ANN'][0].bit_length()
+#print encode['ANN'][0].bit_length()
+CUTOFF=.5
 for chars,kmer in encode.iteritems(): #For every name
     if len(kmer)>=len(qcode):
         g=0 #query index
         numpass=0
-        prop=0
+        prop=0.0
         i =0
+        syll=1
         #for i in range(len(kmer)): #coded name kmer index
         while i <len(kmer):
+            klen=kmer[i].bit_length()
+            if klen==0:
+                klen=7
             if(i!=0 and i==len(qcode)+numpass):#i%(len(qcode)+1)==0):
-                # if(numpass==len(kmer)/2):
-                #     numpass=1
+                if(syll==klen/2):
+                     syll=0
+                syll+=1
                 numpass+=1
-                if(i==(len(qcode))):
-                    min=val
                 g=0
                 i=numpass
-                if(val<min):
-                    min=val#/prop
+                if(val/prop<min and val<=prop*CUTOFF):
+                    min=val/prop
+                    # print 'MIN SET:%s'%(min)
                 val=0
-                prop=0
+                prop=0.0
             #if(kmer[i].bit_length()>prop):
-            prop=prop+qcode[g].bit_length()
+            prop=prop+klen+(i)*(g+1)#+abs(kmer[i].bit_length()-qcode[g].bit_length())#qcode[g].bit_length()
+            val=val+onecount((qcode[g] ^ kmer[i]))+abs(klen-qcode[g].bit_length())+(i)*(g)#*(syll)#+(1+syll)
             # print chars+':'+chars[i:i+2]+' I:%s G:%s'%(i,g)
             # print bin(qcode[g])
             # print bin(kmer[i])
             # print bin((qcode[g] ^ kmer[i]))
             # print onecount((qcode[g] ^ kmer[i]))
-            val=val+onecount((qcode[g] ^ kmer[i]))*(g+1)*(1+numpass)
-            #print 'VAL %s'%(val)
+            # print 'PROP %s'%(prop)
+            # print 'VAL %s'%(val)
             g=g+1
-
             i=i+1
+            if(numpass==0 and i==g==len(qcode)):
+                    min=val/prop
+                    print 'FIRST MIN SET:%s'%(min)
+            if(len(kmer)==len(qcode)):
+                #if(val<min):
+                min=val/prop
             #print val,
     elif len(kmer)<=2:
         if kmer[0]==qcode[0]:
-            min=1
+            min=onecount(kmer[len(kmer)-1]^qcode[len(qcode)-1])/(kmer[len(kmer)-1].bit_length())
         numpass=1
         #else:
             #min=len(qcode)*namesize
     elif len(qcode)>len(kmer):
         g=0 #query index
         numpass=0
-        prop=0
+        prop=0.0
         i=0
+        syll=1
         #for i in range(len(qcode)):
         while i < len(qcode):
-            if(i!=0 and i==len(qcode)+numpass):#i%(len(kmer))==0):
-                # if(numpass==len(kmer)/2):
-                #     numpass=1
-                numpass=numpass+1
-                if(i==(len(kmer))):
-                    min=val
-                g=0
-                i=i-len(kmer)+numpass
-                if(val<min):
-                    min=val#/prop
-                val=0
-                prop=0
-            #if(kmer[i].bit_length()>prop):
-            prop=prop+kmer[g].bit_length()
+            if(i!=0 and i==len(kmer)+numpass):#i%(len(kmer))==0):
+                if(syll==len(kmer)/2):
+                     syll=0
+                syll+=1
 
-            val=val+onecount((kmer[g] ^ qcode[i]))*(g+1)*(1+numpass)# count of differences between codes, penalized for position in each record
+                if(i==(len(kmer)+numpass)):
+                    min=val/prop
+                numpass=numpass+1
+                g=0
+                i=numpass
+                #if(val<min):
+                if(val/prop<min and val<=prop*CUTOFF):
+                    min=val/prop
+                val=0
+                prop=0.0
+            #if(kmer[i].bit_length()>prop):
+            prop=prop+qcode[i].bit_length()+(i)*(g)#+abs(kmer[g].bit_length()-qcode[i].bit_length()))#kmer[g].bit_length()
+
+            val=val+onecount((kmer[g] ^ qcode[i]))+abs(kmer[g].bit_length()-qcode[i].bit_length())+(i)*(g)#*(syll)+abs(len(kmer)-len(qcode))#(g/(1+syll))#+(1+syll)# count of differences between codes, penalized for position in each record
 
             g=g+1
             #val=val|(qcode[i] ^ kmer[i])/(g+1)
             #min=val
             #print val,
             i=i+1
-    results[chars]=min#+(abs(len(kmer)-len(qcode))+1)#/(len(kmer)*len(qcode))
+    results[chars]=min#/float(min(len(kmer),len(qcode)))#+(abs(len(kmer)-len(qcode))+1)#/(len(kmer)*len(qcode))
     val=0
     min=99999999999999999
 for w in sorted(results, key=results.get, reverse=True):
