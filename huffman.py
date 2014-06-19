@@ -21,9 +21,30 @@ def onecount(value):
         value = value&(value-1);
         count=count+1;
     return count
+vowels=['A','E','I','O','U','Y','AE','AI','AO','AU','AY','EA','EI','EO','EU','EY','IO','IU','IY','OA','OE','OI','OU','OY','UA','UE','UI','UY']
+def syllable(name):
+    first=False
+    syll=1
+    if name[0] in vowels:
+        first=True
+    temp=list()
+    temp.append(1)
+    for part in range(1,len(name)):
+        if name[part] in vowels:
+            if not name[part-1]+name[part] in vowels: #and name[part-1]+name[part] !='IA':
+                if first:
+                    syll+=1
+                else:
+                    first=True
+        #else:
+        temp.append(syll)
+    return temp
+#print syllable('MARCUS')
+# print '[D, I, A, N, N, A]'
+# print '[DI, IA, AN, NN, NA, A]'
 KLENGTH=2
 #infile=open('custom2.txt','r')
-infile=open('sampleoutput2.txt','r')
+infile=open('sampleoutput2lasts.txt','r')
 symb2freq=defaultdict()
 for line in infile:
     kmer,freq=line.split('\t')
@@ -52,7 +73,7 @@ for eachLine in names:
         firsts[index]=first.strip().replace('-','').replace('\'','')
 temp=0
 #print firsts
-Q="ZACHARY"
+Q="ABDUL"
 qcode=list()
 for i in range(len(Q)):
     if Q[i:i+KLENGTH] in code:
@@ -73,6 +94,9 @@ for name in firsts.values():
         if name[i:i+KLENGTH] in code:
             encode[name].append(int(code[name[i:i+KLENGTH]],2))
             #temp=temp+int(code[name[i:i+2]]).bit_length()
+        else:
+            encode.pop(name)
+            break
     #outfile.write('%s\n'%(temp))
     temp=0
 # for key in sorted(code, key=code.get, reverse=True):
@@ -82,23 +106,23 @@ val=0
 min=0
 results=dict()
 #print encode['ANN'][0].bit_length()
-CUTOFF=.5
+CUTOFF=.8
 for chars,kmer in encode.iteritems(): #For every name
     if len(kmer)>=len(qcode):
         g=0 #query index
         numpass=0
         prop=0.0
         i =0
-        syll=1
+        syll=syllable(chars)
         #for i in range(len(kmer)): #coded name kmer index
         while i <len(kmer):
             klen=kmer[i].bit_length()
             if klen==0:
                 klen=7
             if(i!=0 and i==len(qcode)+numpass):#i%(len(qcode)+1)==0):
-                if(syll==klen/2):
-                     syll=0
-                syll+=1
+                # if(syll==klen/2):
+                #      syll=0
+                # syll+=1
                 numpass+=1
                 g=0
                 i=numpass
@@ -108,8 +132,8 @@ for chars,kmer in encode.iteritems(): #For every name
                 val=0
                 prop=0.0
             #if(kmer[i].bit_length()>prop):
-            prop=prop+klen+(i)*(g+1)#+abs(kmer[i].bit_length()-qcode[g].bit_length())#qcode[g].bit_length()
-            val=val+onecount((qcode[g] ^ kmer[i]))+abs(klen-qcode[g].bit_length())+(i)*(g)#*(syll)#+(1+syll)
+            prop=prop+klen+val*syll[i]#+abs(kmer[i].bit_length()-qcode[g].bit_length())#qcode[g].bit_length()
+            val=val+onecount((qcode[g] ^ kmer[i]))+abs(klen-qcode[g].bit_length())+(val)*(syll[i])#+(1+syll)
             # print chars+':'+chars[i:i+2]+' I:%s G:%s'%(i,g)
             # print bin(qcode[g])
             # print bin(kmer[i])
@@ -121,7 +145,7 @@ for chars,kmer in encode.iteritems(): #For every name
             i=i+1
             if(numpass==0 and i==g==len(qcode)):
                     min=val/prop
-                    print 'FIRST MIN SET:%s'%(min)
+                    # print 'FIRST MIN SET:%s'%(min)
             if(len(kmer)==len(qcode)):
                 #if(val<min):
                 min=val/prop
@@ -137,13 +161,13 @@ for chars,kmer in encode.iteritems(): #For every name
         numpass=0
         prop=0.0
         i=0
-        syll=1
+        syll=syllable(Q)
         #for i in range(len(qcode)):
         while i < len(qcode):
             if(i!=0 and i==len(kmer)+numpass):#i%(len(kmer))==0):
-                if(syll==len(kmer)/2):
-                     syll=0
-                syll+=1
+                # if(syll==len(kmer)/2):
+                #      syll=0
+                # syll+=1
 
                 if(i==(len(kmer)+numpass)):
                     min=val/prop
@@ -156,9 +180,9 @@ for chars,kmer in encode.iteritems(): #For every name
                 val=0
                 prop=0.0
             #if(kmer[i].bit_length()>prop):
-            prop=prop+qcode[i].bit_length()+(i)*(g)#+abs(kmer[g].bit_length()-qcode[i].bit_length()))#kmer[g].bit_length()
+            prop=prop+qcode[i].bit_length()+val*syll[i]#+abs(kmer[g].bit_length()-qcode[i].bit_length()))#kmer[g].bit_length()
 
-            val=val+onecount((kmer[g] ^ qcode[i]))+abs(kmer[g].bit_length()-qcode[i].bit_length())+(i)*(g)#*(syll)+abs(len(kmer)-len(qcode))#(g/(1+syll))#+(1+syll)# count of differences between codes, penalized for position in each record
+            val=val+onecount((kmer[g] ^ qcode[i]))+abs(kmer[g].bit_length()-qcode[i].bit_length())+val*(syll[i])#+abs(len(kmer)-len(qcode))#(g/(1+syll))#+(1+syll)# count of differences between codes, penalized for position in each record
 
             g=g+1
             #val=val|(qcode[i] ^ kmer[i])/(g+1)
