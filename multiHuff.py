@@ -4,6 +4,7 @@ __author__ = 'seidz'
 import Queue
 import threading
 import time
+import huffman
 
 exitFlag = 0
 

@@ -1,3 +1,8 @@
+import Queue
+import threading
+import time
+import thread
+import numpy as numpy
 __author__ = 'seidz'
 from heapq import heappush, heappop, heapify
 from collections import defaultdict
@@ -81,31 +86,37 @@ for eachLine in names:
         firsts[index]=clean(first)
     lasts[index]=clean(last)
 names.close()
-
+lookupf=[None]*(900000)
+lookupl=[None]*(900000)
 #Encode each of the names according to the huffman tree
 encodefirsts=dict()
-for name in firsts.values():
+for index,name in firsts.iteritems():
+    val=int(index)
+    lookupf[val]=name
     if len(name)>0:
-        encodefirsts[name]=list()
+        encodefirsts[index]=list()
     for i in range(len(name)):
         if name[i:i+KLENGTH] in code:
-            encodefirsts[name].append(int(code[name[i:i+KLENGTH]],2))
+            encodefirsts[index].append(int(code[name[i:i+KLENGTH]],2))
             #temp=temp+int(code[name[i:i+2]]).bit_length()
         else:
             print 'Error encoding first name'+name
-            encodefirsts.pop(name)
+            encodefirsts.pop(index)
             break
 encodelasts=dict()
-for lname in lasts.values():
+for index,lname in lasts.iteritems():
+    val=int(index)
+
+    lookupl[val]=lname
     if len(lname)>0:
-        encodelasts[lname]=list()
+        encodelasts[index]=list()
     for i in range(len(lname)):
         if lname[i:i+KLENGTH] in code:
-            encodelasts[lname].append(int(code[lname[i:i+KLENGTH]],2))
+            encodelasts[index].append(int(code[lname[i:i+KLENGTH]],2))
             #temp=temp+int(code[name[i:i+2]]).bit_length()
         else:
             print 'Error encoding last name'+lname
-            encodelasts.pop(lname)
+            encodelasts.pop(index)
             break
 
 temp=0
@@ -124,7 +135,36 @@ temp=0
 
 #print encode['ANN'][0].bit_length()
 CUTOFF=1
-def algorithm (query, huffdict):
+sylldict=dict()
+for index, kmer in encodefirsts.iteritems():
+    sylldict[lookupf[int(index)]]=syllable(kmer)
+for index,kmer in encodelasts.iteritems():
+    if lookupl[int(index)] not in sylldict:
+        sylldict[lookupl[int(index)]]=syllable(kmer)
+outfile=open('results.txt','a')
+def reconcile(firstres,lastres):
+    output=0
+    attempt=0
+    for g in sorted(firstres,key=firstres.get,reverse=False)[:50]:
+        # if attempt<1000:
+        #     for h in sorted(lastres,key=lastres.get,reverse=False):
+        #         if output <100:
+        #             if g==h:
+        #                 outfile.write('%s|%s|%s\n'%(i,g,firstres[g]+lastres[g]))
+        #                 print '%s|%s|%s'%(i,g,firstres[g]+lastres[g])
+        #             output+=1
+        #         else:
+        #             break
+        #     output=0
+        #     attempt+=1
+        # else:
+        #     break
+        print '%s|%s|%s\n'%(i,g,firstres[g])
+        outfile.write('%s|%s|%s\n'%(i,g,firstres[g]))
+    for h in sorted(lastres,key=lastres.get,reverse=False)[:50]:
+        outfile.write('%s|%s|%s\n'%(i,h,lastres[h]))
+        print '%s|%s|%s\n'%(i,h,lastres[h])
+def algorithm (query, huffdict, lookup):
     encode=huffdict
     Q=query
     qcode=list()
@@ -143,12 +183,11 @@ def algorithm (query, huffdict):
             numpass=0
             prop=0.0
             i =0
-            syll=syllable(chars)
-            #for i in range(len(kmer)): #coded name kmer index
+            syll=sylldict[lookup[int(chars)]]
             while i <len(kmer):
                 klen=kmer[i].bit_length()
                 if klen==0:
-                    klen=7
+                    klen=15
                 if(i!=0 and i==len(qcode)+numpass):#i%(len(qcode)+1)==0):
                     # if(syll==klen/2):
                     #      syll=0
@@ -226,6 +265,49 @@ def algorithm (query, huffdict):
     val=0
     min=99999999999999999
     return results
+print 'PREPROCESSING FINISHED'
+exitFlag = 0
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, q):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.q = q
+    def run(self):
+        #print "Starting " + self.name
+        process_data(self.name, self.q)
+        #print "Exiting " + self.name
+
+def process_data(threadName, q):
+    while not exitFlag:
+        queueLock.acquire()
+        if not workQueue.empty():
+            dataf,datag = q.get()
+            queueLock.release()
+            firstresults=algorithm(dataf,encodefirsts,lookupf)
+            lastresults=algorithm(datag,encodelasts,lookupl)
+            reconcile(firstresults,lastresults)
+            print "processing %s %s" % (dataf,datag)
+        else:
+            queueLock.release()
+        time.sleep(1)
+
+threadList = ["Thread-1", "Thread-2", "Thread-3","Thread-4"]
+nameList = ["One", "Two", "Three", "Four", "Five"]
+queueLock = threading.Lock()
+workQueue = Queue.Queue()
+
+threads = []
+threadID = 1
+
+# Create new threads
+for tName in threadList:
+    thread = myThread(threadID, tName, workQueue)
+    thread.start()
+    threads.append(thread)
+    threadID += 1
+
+'''PULL QUEUE CONTENTS FROM FILE'''
 dataFile = open('diagnostic.txt','r')
 firstqs=dict()
 lastqs=dict()
@@ -239,26 +321,46 @@ for eachLine in dataFile:
         firstqs[index]=clean(first)
     lastqs[index]=clean(last)
 dataFile.close()
+'''END QUEUE PULL'''
 
 
+# Fill the queue
+queueLock.acquire()
+for i in range(1,3):
+    workQueue.put((firstqs['%s'%i],lastqs['%s'%i]))
+queueLock.release()
 
-for i in range(1,len(firstqs)):
-    firstresults=algorithm(firstqs['%s'%i],encodefirsts)
-    lastresults=algorithm(lastqs['%s'%i],encodelasts)
+# Wait for queue to empty
+while not workQueue.empty():
+    pass
+
+# Notify threads it's time to exit
+exitFlag = 1
+
+# Wait for all threads to complete
+for t in threads:
+    t.join()
+
+
+# for i in range(0,len(firstqs)):
+#     print 'Running query:'+firstqs['%s'%i]+' '+lastqs['%s'%i]
+#     starttime=time.time()
+#     firstresults=algorithm(firstqs['%s'%i],encodefirsts,lookupf)
+#     endtime=time.time()
+#     print 'Firstname completed'
+#     print endtime-starttime
+#     starttime=time.time()
+#     lastresults=algorithm(lastqs['%s'%i],encodelasts,lookupl)
+#     endttime=time.time()
+#     print 'Lastname completed'
+#     print endttime-starttime
+#     thread.start_new_thread(reconcile,(firstresults,lastresults))
+outfile.close()
 # print len(firstresults)
 # print len(lastresults)
 #firstresults=sorted(firstresults,key=firstresults.get,reverse=True)
 #lastresults=sorted(lastresults,key=lastresults.get,reverse=False)
-    output=0
-    for g in sorted(firstresults,key=firstresults.get,reverse=False):
-        if output<10:
-            print (g+'\t%s'%(firstresults[g]))
-        output+=1
-    output=0
-    for g in sorted(lastresults,key=lastresults.get,reverse=False):
-        if output<10:
-            print (g+'\t%s'%(lastresults[g]))
-        output+=1
+
 # for w in sorted(results, key=results.get, reverse=False):
-#     #outfile.write(w+'\t%s\n'%(results[w]))
+     #outfile.write(w+'\t%s\n'%(results[w]))
 #     print(w+'\t%s'%(results[w]))
