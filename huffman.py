@@ -141,11 +141,17 @@ for index, kmer in encodefirsts.iteritems():
 for index,kmer in encodelasts.iteritems():
     if lookupl[int(index)] not in sylldict:
         sylldict[lookupl[int(index)]]=syllable(kmer)
-outfile=open('results.txt','a')
-def reconcile(firstres,lastres):
+# '''EXPERIMENTAL NUMPY'''
+# encodefirsts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodefirsts.iteritems()])
+# encodelasts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodelasts.iteritems()])
+
+
+
+outfile=open('results3.txt','a')
+def reconcile(iq,firstres,lastres):
     output=0
     attempt=0
-    for g in sorted(firstres,key=firstres.get,reverse=False)[:50]:
+    for g in (sorted(firstres,key=firstres.get,reverse=False)[:50]):
         # if attempt<1000:
         #     for h in sorted(lastres,key=lastres.get,reverse=False):
         #         if output <100:
@@ -160,9 +166,9 @@ def reconcile(firstres,lastres):
         # else:
         #     break
         print '%s|%s|%s\n'%(i,g,firstres[g])
-        outfile.write('%s|%s|%s\n'%(i,g,firstres[g]))
-    for h in sorted(lastres,key=lastres.get,reverse=False)[:50]:
-        outfile.write('%s|%s|%s\n'%(i,h,lastres[h]))
+        outfile.write('%s|%s|%s\n'%(iq,g,firstres[g]))
+    for h in (sorted(lastres,key=lastres.get,reverse=False)[:50]):
+        outfile.write('%s|%s|%s\n'%(iq,h,lastres[h]))
         print '%s|%s|%s\n'%(i,h,lastres[h])
 def algorithm (query, huffdict, lookup):
     encode=huffdict
@@ -282,12 +288,16 @@ def process_data(threadName, q):
     while not exitFlag:
         queueLock.acquire()
         if not workQueue.empty():
-            dataf,datag = q.get()
+            ind,dataf,datag = q.get()
             queueLock.release()
+            stime=time.time()
+            print "PROCESSING %s %s" % (dataf,datag)
             firstresults=algorithm(dataf,encodefirsts,lookupf)
             lastresults=algorithm(datag,encodelasts,lookupl)
-            reconcile(firstresults,lastresults)
-            print "processing %s %s" % (dataf,datag)
+            print "RECONCILING RESULTS..."
+            reconcile(ind,firstresults,lastresults)
+            etime=time.time()
+            print "%s %s FINISHED: %s" % (dataf,datag,etime-stime)
         else:
             queueLock.release()
         time.sleep(1)
@@ -308,12 +318,13 @@ for tName in threadList:
     threadID += 1
 
 '''PULL QUEUE CONTENTS FROM FILE'''
-dataFile = open('diagnostic.txt','r')
+dataFile = open('q3.txt','r')
 firstqs=dict()
 lastqs=dict()
 for eachLine in dataFile:
 # setup a temporay variable 1|ANN P|DANIELS
     index, first, last = eachLine.split('|')
+    index=int(index)
     if (first.find(' ')!=-1):
         firstqs[index]=clean(first.split(' ')[0]) #Just takes first names, for now. We'll see if there's a difference in the distributions.
         #firsts[index]=temp.strip()
@@ -322,14 +333,14 @@ for eachLine in dataFile:
     lastqs[index]=clean(last)
 dataFile.close()
 '''END QUEUE PULL'''
-
-
+imin=numpy.min(firstqs.keys())
+imax=numpy.max(firstqs.keys())
 # Fill the queue
 queueLock.acquire()
-for i in range(1,3):
-    workQueue.put((firstqs['%s'%i],lastqs['%s'%i]))
+for i in range(imin,imax):
+    workQueue.put((i,firstqs[i],lastqs[i]))
 queueLock.release()
-
+print 'QUEUE POPULATED'
 # Wait for queue to empty
 while not workQueue.empty():
     pass
