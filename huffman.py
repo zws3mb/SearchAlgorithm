@@ -20,14 +20,17 @@ def encode(symb2freq):
             pair[1] = '1' + pair[1]
         heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
     return sorted(heappop(heap)[1:], key=lambda p: (len(p[-1]), p))
+
 def onecount(value): #count the number of 1's in a binary sequence.
     count=0;
     while(value!=0):
         value = value&(value-1);
         count=count+1;
     return count
+
+
 vowels=['A','E','I','O','U','Y','AE','AI','AO','AU','AY','EA','EI','EO','EU','EY','IO','IU','IY','OA','OE','OI','OU','OY','UA','UE','UI','UY']
-def syllable(name):
+def syllable(name):         #crude syllabification
     first=False
     syll=1
     if name[0] in vowels:
@@ -46,8 +49,9 @@ def syllable(name):
             #syll+=1
         temp.append(syll)
     return temp
-#print syllable('ANNIE')
-def freqToTree(filename):
+
+
+def freqToTree(filename):       #utility to convert lines of element\tfreq into a dictionary
     #Building the Huffman tree
     infile=open(filename,'r') #input the frequencies
     symb2freq=defaultdict()
@@ -59,22 +63,38 @@ def freqToTree(filename):
             continue
         symb2freq[kmer]=freq                #store the frequency with the kmer
     return symb2freq
-def translate(huffman):
+
+
+def translate(huffman):                 #converts array to dict form
     huff = huffman#encode(freqToTree('sampleoutput2lasts.txt'))                #build the tree
     code=dict()
     for p in huff:
         #print "%s\t%s\t%s" % (p[0], symb2freq[p[0]], p[1])
         code[p[0]]=p[1]                     #put kmers and codes into dictionary form
     return code
-def clean(input):
+
+
+def clean(input):                       #string cleaning
     return input.strip().replace('-','').replace('\'','').replace('\\','').replace('/','').replace('"','').replace(',','').replace(' ','').replace('.','').replace('?','').replace('1','').replace('2','').replace('3','').replace('4','').replace('5','').replace('6','').replace('7','').replace('8','').replace('9','').replace('0','')
+code = dict()
+try:
+    treesrc=open('tree.txt','r')
+    for line in treesrc:
+        kmer,freq=line.split('\t')
+        code[kmer]=freq
+    treesrc.close()
+except:
+    code = translate(encode(freqToTree('frequencies.txt')))         #Use the utilities to actually build the tree
+    '''OUTPUT THE TREE FOR FUTURE USE'''
+    outtree=open('tree.txt','w')
+    for id, bstring in code.iteritems():
+        outtree.write('%s\t%s\n'%(id,bstring))
+    #print firsts
+    outtree.close()
 
-
-
-code = translate(encode(freqToTree('frequencies.txt')))
 #Read in the 'watchlist' or db to search against
 KLENGTH=2                                   #length of the kmer
-names=open('sample.txt','r')
+names=open('index.txt','r')
 firsts=dict()
 lasts=dict()
 for eachLine in names:
@@ -119,8 +139,6 @@ for index,lname in lasts.iteritems():
             encodelasts.pop(index)
             break
 
-temp=0
-#print firsts
 
 #print "QUERY:%s "%(qscore),
 # print qcode
@@ -146,12 +164,11 @@ for index,kmer in encodelasts.iteritems():
 # encodelasts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodelasts.iteritems()])
 
 
-
 outfile=open('results3.txt','a')
 def reconcile(iq,firstres,lastres):
     output=0
     attempt=0
-    for g in (sorted(firstres,key=firstres.get,reverse=False)[:50]):
+    for g,v in firstres.iteritems():#(sorted(firstres,key=firstres.get,reverse=False)[:50]):
         # if attempt<1000:
         #     for h in sorted(lastres,key=lastres.get,reverse=False):
         #         if output <100:
@@ -165,11 +182,11 @@ def reconcile(iq,firstres,lastres):
         #     attempt+=1
         # else:
         #     break
-        print '%s|%s|%s\n'%(i,g,firstres[g])
-        outfile.write('%s|%s|%s\n'%(iq,g,firstres[g]))
-    for h in (sorted(lastres,key=lastres.get,reverse=False)[:50]):
-        outfile.write('%s|%s|%s\n'%(iq,h,lastres[h]))
-        print '%s|%s|%s\n'%(i,h,lastres[h])
+        print '%s|%s|%s\n'%(iq,g,v)
+        outfile.write('%s|%s|%s\n'%(iq,g,v))
+    for h,v in lastres.iteritems():#(sorted(lastres,key=lastres.get,reverse=False)[:50]):
+        outfile.write('%s|%s|%s\n'%(iq,h,v))
+        print '%s|%s|%s\n'%(iq,h,v)
 def algorithm (query, huffdict, lookup):
     encode=huffdict
     Q=query
@@ -272,6 +289,8 @@ def algorithm (query, huffdict, lookup):
     min=99999999999999999
     return results
 print 'PREPROCESSING FINISHED'
+firstanswers=dict()
+lastanswers=dict()
 exitFlag = 0
 class myThread (threading.Thread):
     def __init__(self, threadID, name, q):
@@ -283,17 +302,29 @@ class myThread (threading.Thread):
         #print "Starting " + self.name
         process_data(self.name, self.q)
         #print "Exiting " + self.name
-
+def cutdict(dic):
+    for g in (sorted(dic,key=dic.get,reverse=False)[50:]):
+        dic.pop(g)
 def process_data(threadName, q):
     while not exitFlag:
         queueLock.acquire()
         if not workQueue.empty():
-            ind,dataf,datag = q.get()
+            dataf,datag,ind = q.get()
             queueLock.release()
             stime=time.time()
             print "PROCESSING %s %s" % (dataf,datag)
-            firstresults=algorithm(dataf,encodefirsts,lookupf)
-            lastresults=algorithm(datag,encodelasts,lookupl)
+            if dataf in firstanswers:
+                firstresults=firstanswers[dataf]
+            else:
+                firstresults=algorithm(dataf,encodefirsts,lookupf)
+                cutdict(firstresults)
+                firstanswers[dataf]=firstresults
+            if datag in lastanswers:
+                lastresults=lastanswers[datag]
+            else:
+                lastresults=algorithm(datag,encodelasts,lookupl)
+                cutdict(lastresults)
+                lastanswers[datag]=lastresults
             print "RECONCILING RESULTS..."
             reconcile(ind,firstresults,lastresults)
             etime=time.time()
@@ -302,10 +333,10 @@ def process_data(threadName, q):
             queueLock.release()
         time.sleep(1)
 
-threadList = ["Thread-1", "Thread-2", "Thread-3","Thread-4"]
+threadList = ["Thread-1","Thread-2","Thread-3","Thread-4"]
 nameList = ["One", "Two", "Three", "Four", "Five"]
 queueLock = threading.Lock()
-workQueue = Queue.Queue()
+workQueue = Queue.PriorityQueue()
 
 threads = []
 threadID = 1
@@ -338,7 +369,7 @@ imax=numpy.max(firstqs.keys())
 # Fill the queue
 queueLock.acquire()
 for i in range(imin,imax):
-    workQueue.put((i,firstqs[i],lastqs[i]))
+    workQueue.put((firstqs[i],lastqs[i],i))
 queueLock.release()
 print 'QUEUE POPULATED'
 # Wait for queue to empty

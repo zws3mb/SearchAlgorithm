@@ -17,6 +17,7 @@ def onecount(value):
     while(value!=0):
         value = value&(value-1);
         count=count+1;
+        print bin(value)
     return count
 # print '\t%b'%(0b101)
 # print '\t%b'%(0b01011)
@@ -51,20 +52,60 @@ def onecount(value):
 # for key,value in combo.iteritems():
 #     outfile.write('%s\t%s\n'%(key,value))
 # outfile.close()
-infile = open('queries.txt','r')
-o1 = open('q1.txt','w')
-o2 = open('q2.txt','w')
-o3 = open('q3.txt','w')
-ln =0
-for line in infile:
-    if ln < 3000:
-        o1.write(line)
-    if ln >=3000 and ln < 6000:
-        o2.write(line)
-    if ln >=6000:
-        o3.write(line)
-    ln+=1
-o1.close()
-o2.close()
-o3.close()
-infile.close()
+# infile = open('queries.txt','r')
+# o1 = open('q1.txt','w')
+# o2 = open('q2.txt','w')
+# o3 = open('q3.txt','w')
+# ln =0
+# temp =dict()
+# temp['124312']=0.843828
+# temp['14124']=0.3782
+# temp['13211']=0.10120
+# for line in infile:
+#     if ln < 3000:
+#         o1.write(line)
+#     if ln >=3000 and ln < 6000:
+#         o2.write(line)
+#     if ln >=6000:
+#         o3.write(line)
+#     ln+=1
+# o1.close()
+# o2.close()
+# o3.close()
+# infile.close()
+#
+# def cutdict(dic):
+#     for g in (sorted(dic,key=dic.get,reverse=False)[50:]):
+#         dic.pop(g)
+# cutdict(temp)
+# def equalize(bstring1,bstring2):
+#     for i in range(0,abs((bstring1.bit_length())-bstring2.bit_length())):
+#         bstring1=bstring1*2
+#     return bstring1
+def equalize(bstring1,bstring2):
+    if bstring1.bit_length <bstring2.bit_length:
+        for i in range(0,abs((bstring1.bit_length())-bstring2.bit_length())):
+            bstring1=bstring1*2
+        return bstring1
+    elif bstring2.bit_length <bstring1.bit_length:
+        for i in range(0,abs((bstring1.bit_length())-bstring2.bit_length())):
+            bstring2=bstring2*2
+        return bstring2
+
+a=24
+b=45342
+if a.bit_length()<b.bit_length():
+    a=equalize(a,b)
+if a.bit_length()>b.bit_length():
+    b=equalize(a,b)
+onecount(b)
+# print bin(a)
+# print bin(b)
+# # print bin(a^b)
+# # print bin(equalize(a,b))
+# # print bin(equalize(a,b))
+# # print bin(b)
+# # print bin(equalize(a,b)^b)
+#
+#
+# print bin(a&b)
