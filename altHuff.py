@@ -1,3 +1,4 @@
+__author__ = 'seidz'
 import Queue
 import threading
 import time
@@ -80,7 +81,9 @@ def equalize(bstring1,bstring2):
         for i in range(0,abs((bstring1.bit_length())-bstring2.bit_length())):
             bstring2=bstring2*2
         return bstring2
-
+    else:
+        print 'ERROR IN EQUALIZATION %s %s' %(bstring1,bstring2)
+        return bstring1
 def clean(input):                       #string cleaning
     return input.strip().replace('-','').replace('\'','').replace('\\','').replace('/','').replace('"','').replace(',','').replace(' ','').replace('.','').replace('?','').replace('1','').replace('2','').replace('3','').replace('4','').replace('5','').replace('6','').replace('7','').replace('8','').replace('9','').replace('0','').replace('(',"").replace(')','')
 
@@ -178,7 +181,7 @@ for index,kmer in encodelasts.iteritems():
 # encodelasts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodelasts.iteritems()])
 
 
-outfile=open('results1.txt','a')
+outfile=open('r3.txt','a')
 def reconcile(iq,firstres,lastres):
     output=0
     attempt=0
@@ -280,9 +283,9 @@ def algorithm (query, huffdict, lookup):
         elif len(kmer)<=2:
             qcomp=qcode[0]
             kcomp=kmer[0]
-            if qcode[0].bit_length <kmer[0].bit_length:
+            if qcode[0].bit_length() <kmer[0].bit_length():
                 qcomp=equalize(qcode[0],kmer[0])
-            elif qcode[0].bit_length >kmer[0].bit_length:
+            elif qcode[0].bit_length() >kmer[0].bit_length():
                 kcomp=equalize(qcode[0],kmer[0])
             if kmer[0]==qcode[0]:
                 min=(onecount((kcomp^qcomp))+abs(kmer[0].bit_length()-qcode[0].bit_length()))/(max(kmer[0].bit_length(),qcode[0].bit_length()))
@@ -346,7 +349,7 @@ def algorithm (query, huffdict, lookup):
                 g=g+1
                 i=i+1
         fweight=max(abs((len(kmer)-len(qcode)))/10.0 ,1)
-        results[chars]=(min+fweight*firstval)/2#+(.1*onecount(kmer[0]^qcode[0])*abs(max(len(kmer),len(qcode))-6))#/float(min(len(kmer),len(qcode)))#+(abs(len(kmer)-len(qcode))+1)#/(len(kmer)*len(qcode))
+        results[chars]=(min+fweight*firstval)/2.0#+(.1*onecount(kmer[0]^qcode[0])*abs(max(len(kmer),len(qcode))-6))#/float(min(len(kmer),len(qcode)))#+(abs(len(kmer)-len(qcode))+1)#/(len(kmer)*len(qcode))
         #if min <.95:
         #print '%s %s'%(onecount(kmer[0]^qcode[0]),abs(max(len(kmer),len(qcode))-6))
         val=0
@@ -356,70 +359,12 @@ def algorithm (query, huffdict, lookup):
 print 'PREPROCESSING FINISHED'
 firstanswers=dict()
 lastanswers=dict()
-exitFlag = 0
-class myThread (threading.Thread):
-    def __init__(self, threadID, name, q):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.q = q
-    def run(self):
-        #print "Starting " + self.name
-        process_data(self.name, self.q)
-        #print "Exiting " + self.name
 def cutdict(dic):
     for g in (sorted(dic,key=dic.get,reverse=False)[50:]):
         dic.pop(g)
-def process_data(threadName, q):
-    while not exitFlag:
-        queueLock.acquire()
-        if not workQueue.empty():
-            dataf,datag,ind = q.get()
-            queueLock.release()
-            stime=time.time()
-            print "PROCESSING %s %s" % (dataf,datag)
-            if dataf in firstanswers:
-                firstresults=firstanswers[dataf]
-            else:
-                firstresults=algorithm(dataf,encodefirsts,lookupf)
-                cutdict(firstresults)
-                firstanswers[dataf]=firstresults
-            print 'FIRST-TIME: %s'%(time.time()-stime)
-            mtime=time.time()
-            if datag in lastanswers:
-                lastresults=lastanswers[datag]
-            else:
-                lastresults=algorithm(datag,encodelasts,lookupl)
-                cutdict(lastresults)
-                lastanswers[datag]=lastresults
-            print 'LAST-TIME: %s'%(time.time()-mtime)
-            rtime=time.time()
-            print "RECONCILING RESULTS..."
-            reconcile(ind,firstresults,lastresults)
-            etime=time.time()
-            print 'R-TIME: %s'%(etime-rtime)
-            print "%s %s FINISHED: %s" % (dataf,datag,etime-stime)
-        else:
-            queueLock.release()
-        time.sleep(1)
-
-threadList = ["Thread-1","Thread-3","Thread-4"]
-nameList = ["One", "Two", "Three", "Four", "Five"]
-queueLock = threading.Lock()
-workQueue = Queue.Queue()
-
-threads = []
-threadID = 1
-
-# Create new threads
-for tName in threadList:
-    thread = myThread(threadID, tName, workQueue)
-    thread.start()
-    threads.append(thread)
-    threadID += 1
 
 '''PULL QUEUE CONTENTS FROM FILE'''
-dataFile = open('q1.txt','r')
+dataFile = open('q3.txt','r')
 firstqs=dict()
 lastqs=dict()
 for eachLine in dataFile:
@@ -437,21 +382,37 @@ dataFile.close()
 imin=numpy.min(firstqs.keys())
 imax=numpy.max(firstqs.keys())
 # Fill the queue
-queueLock.acquire()
 for i in range(imin,imax):
-    workQueue.put((firstqs[i],lastqs[i],i))
-queueLock.release()
-print 'QUEUE POPULATED'
-# Wait for queue to empty
-while not workQueue.empty():
-    pass
+    dataf=firstqs[i]
+    datag=lastqs[i]
+    ind =i
+    stime=time.time()
+    print "PROCESSING %s %s" % (dataf,datag)
+    if dataf in firstanswers:
+        firstresults=firstanswers[dataf]
+    else:
+        firstresults=algorithm(dataf,encodefirsts,lookupf)
+        cutdict(firstresults)
+        firstanswers[dataf]=firstresults
+    print 'FIRST-TIME: %s'%(time.time()-stime)
+    mtime=time.time()
+    if datag in lastanswers:
+        lastresults=lastanswers[datag]
+    else:
+        lastresults=algorithm(datag,encodelasts,lookupl)
+        cutdict(lastresults)
+        lastanswers[datag]=lastresults
+    print 'LAST-TIME: %s'%(time.time()-mtime)
+    rtime=time.time()
+    print "RECONCILING RESULTS..."
+    reconcile(ind,firstresults,lastresults)
+    etime=time.time()
+    print 'R-TIME: %s'%(etime-rtime)
+    print "%s %s FINISHED: %s" % (dataf,datag,etime-stime)
 
 # Notify threads it's time to exit
-exitFlag = 1
 
-# Wait for all threads to complete
-for t in threads:
-    t.join()
+
 
 
 # for i in range(0,len(firstqs)):
