@@ -96,7 +96,7 @@ def treeFactory(code):
             code[kmer]=freq
         treesrc.close()
     except:
-        code = translate(encode(freqToTree('frequencies.txt')))         #Use the utilities to actually build the tree
+        code = translate(encode(freqToTree('masterfrequencies.txt')))         #Use the utilities to actually build the tree
         '''OUTPUT THE TREE FOR FUTURE USE'''
         outtree=open('tree.txt','w')
         for id, bstring in code.iteritems():
@@ -193,7 +193,7 @@ for index,kmer in encodelasts.iteritems():
 # encodelasts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodelasts.iteritems()])
 
 
-outfile=open('r3.txt','a')
+outfile=open('f3.txt','a')
 def reconcile(iq,firstres,lastres):
     output=0
     attempt=0

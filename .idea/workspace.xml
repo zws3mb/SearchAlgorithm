@@ -2,22 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40f65248-9103-4d4e-a5e7-8a4239e5bfad" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\311AFD7B" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\33A18391" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\38C88BDB" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\7857A32E" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\797F2D8A" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\81C12D17" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\84E9CA7B" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\98B82605" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\A26FE789" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\AB984181" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\C5332076" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\CC965C92" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\F17ED5D6" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\lock_file" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\tree.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/altHuff.py" afterPath="$PROJECT_DIR$/altHuff.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/r3.txt" afterPath="$PROJECT_DIR$/r3.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frequencies.txt" afterPath="$PROJECT_DIR$/frequencies.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/playground.py" afterPath="$PROJECT_DIR$/playground.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Search Algorithm.iws" />
@@ -44,8 +32,8 @@
       <file leaf-file-name="altHuff.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/altHuff.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="8.151188" vertical-offset="0" max-vertical-offset="7837">
-              <caret line="222" column="12" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
+            <state vertical-scroll-proportion="-1.559719" vertical-offset="2981" max-vertical-offset="7837">
+              <caret line="97" column="11" selection-start-line="97" selection-start-column="11" selection-end-line="97" selection-end-column="11" />
               <folding>
                 <element signature="e#21#33#0" expanded="true" />
               </folding>
@@ -57,7 +45,17 @@
         <entry file="file://$PROJECT_DIR$/results1.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="112917" max-vertical-offset="135609">
-              <caret line="7714" column="12" selection-start-line="7714" selection-start-column="12" selection-end-line="7714" selection-end-column="12" />
+              <caret line="6659" column="13" selection-start-line="6659" selection-start-column="13" selection-end-line="6659" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="playground.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/playground.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1933" max-vertical-offset="2431">
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -85,11 +83,11 @@
         <option value="$PROJECT_DIR$/associationmapper.py" />
         <option value="$PROJECT_DIR$/multiHuff.py" />
         <option value="$PROJECT_DIR$/results1.txt" />
-        <option value="$PROJECT_DIR$/playground.py" />
         <option value="$PROJECT_DIR$/../../../../fake/SearchAlgorithm/huffman.py" />
-        <option value="$PROJECT_DIR$/frequencies.txt" />
         <option value="$PROJECT_DIR$/huffman.py" />
+        <option value="$PROJECT_DIR$/frequencies.txt" />
         <option value="$PROJECT_DIR$/altHuff.py" />
+        <option value="$PROJECT_DIR$/playground.py" />
       </list>
     </option>
   </component>
@@ -429,7 +427,9 @@
       <module name="Search Algorithm" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground.py" />
       <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -486,17 +486,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3273743" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3203125" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17370325" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3984375" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39776537" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3899782" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4368715" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4368715" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -551,21 +551,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/playground.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="510">
-          <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/pa5_final_scripts/reducer_01.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="1037">
-          <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dictmapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="629">
@@ -861,22 +846,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/playground.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1312" max-vertical-offset="2142">
-          <caret line="100" column="20" selection-start-line="100" selection-start-column="20" selection-end-line="100" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/results1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="112917" max-vertical-offset="135609">
-          <caret line="7714" column="12" selection-start-line="7714" selection-start-column="12" selection-end-line="7714" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../../fake/SearchAlgorithm/huffman.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4522">
@@ -889,14 +858,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0372807" vertical-offset="0" max-vertical-offset="51102">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frequencies.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57009345" vertical-offset="8664" max-vertical-offset="13056">
-          <caret line="524" column="5" selection-start-line="524" selection-start-column="5" selection-end-line="524" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -919,10 +880,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/frequencies.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.359375" vertical-offset="8696" max-vertical-offset="13005">
+          <caret line="521" column="6" selection-start-line="521" selection-start-column="6" selection-end-line="521" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/results1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="112917" max-vertical-offset="135609">
+          <caret line="6659" column="13" selection-start-line="6659" selection-start-column="13" selection-end-line="6659" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/masterfrequencies.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3325893" vertical-offset="7416" max-vertical-offset="13362">
+          <caret line="445" column="2" selection-start-line="445" selection-start-column="0" selection-end-line="445" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playground.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1933" max-vertical-offset="2431">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/altHuff.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.151188" vertical-offset="0" max-vertical-offset="7837">
-          <caret line="222" column="12" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
+        <state vertical-scroll-proportion="-1.559719" vertical-offset="2981" max-vertical-offset="7837">
+          <caret line="97" column="11" selection-start-line="97" selection-start-column="11" selection-end-line="97" selection-end-column="11" />
           <folding>
             <element signature="e#21#33#0" expanded="true" />
           </folding>
