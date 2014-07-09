@@ -109,27 +109,39 @@ treeFactory(code)
 KLENGTH=2                                   #length of the kmer
 firsts=dict()
 lasts=dict()
-def loadNames():
+lookupf=dict()
+lookupl=dict()
+def loadNames(lookupf,lookupl):
     names=open('index.txt','r')
     for eachLine in names:
         index, first, last = eachLine.split('|')
+        first=clean(first)
+        last=clean(last).replace('\n','')
+        if first not in lookupf:
+            lookupf[first]=list()
+        lookupf[first].append(index)
+        if last not in lookupl:
+            lookupl[last]=list()
+        lookupl[last].append(index)
         if (first.find(' ')!=-1):
-            firsts[index]=clean(first.split(' ')[0]) #Just takes first names, for now. We'll see if there's a difference in the distributions.
-            #firsts[index]=temp.strip()
+            temp0=clean(first.split(' ')[0]) #Just takes first names, for now. We'll see if there's a difference in the distributions.
+            firsts[temp0]=temp0
         else:
-            firsts[index]=clean(first)
-        lasts[index]=clean(last)
+            temp0=clean(first)
+            firsts[temp0]=temp0
+        templ=clean(last)
+        lasts[templ]=templ
     names.close()
 
-loadNames()
-lookupf=[None]*(900000)
-lookupl=[None]*(900000)
+loadNames(lookupf, lookupl)
+# lookupf=[None]*(900000)
+# lookupl=[None]*(900000)
 #Encode each of the names according to the huffman tree
 encodefirsts=dict()
 
 for index,name in firsts.iteritems():
-    val=int(index)
-    lookupf[val]=name
+    #val=int(index)
+    #lookupf[val]=name
     if len(name)>0:
         encodefirsts[index]=list()
     for i in range(len(name)):
@@ -142,9 +154,9 @@ for index,name in firsts.iteritems():
             break
 encodelasts=dict()
 for index,lname in lasts.iteritems():
-    val=int(index)
+    #val=int(index)
 
-    lookupl[val]=lname
+    #lookupl[val]=lname
     if len(lname)>0:
         encodelasts[index]=list()
     for i in range(len(lname)):
@@ -172,10 +184,10 @@ temp=0
 CUTOFF=1
 sylldict=dict()
 for index, kmer in encodefirsts.iteritems():
-    sylldict[lookupf[int(index)]]=syllable(kmer)
+    sylldict[index]=syllable(index)
 for index,kmer in encodelasts.iteritems():
-    if lookupl[int(index)] not in sylldict:
-        sylldict[lookupl[int(index)]]=syllable(kmer)
+    if index not in sylldict:
+        sylldict[index]=syllable(index)
 # '''EXPERIMENTAL NUMPY'''
 # encodefirsts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodefirsts.iteritems()])
 # encodelasts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodelasts.iteritems()])
@@ -199,11 +211,16 @@ def reconcile(iq,firstres,lastres):
         #     attempt+=1
         # else:
         #     break
-        print '%s|%s|%s\n'%(iq,g,v)
-        outfile.write('%s|%s|%s\n'%(iq,g,v))
-    for h,v in lastres.iteritems():#(sorted(lastres,key=lastres.get,reverse=False)[:50]):
-        outfile.write('%s|%s|%s\n'%(iq,h,v))
-        print '%s|%s|%s\n'%(iq,h,v)
+        #print '%s|%s|%s\n'%(iq,g,v)
+        for id in lookupf[g]:
+            for h,y in lastres.iteritems():
+                if id in lookupl[h]:
+                    outfile.write('%s|%s|%s\n'%(iq,id,v+y))
+                    #print '%s|%s|%s\n'%(iq,id,v+y)
+    # for h,v in lastres.iteritems():#(sorted(lastres,key=lastres.get,reverse=False)[:50]):
+    #     outfile.write('%s|%s|%s\n'%(iq,h,v))
+    #     print '%s|%s|%s\n'%(iq,h,v)
+    print iq
 def algorithm (query, huffdict, lookup):
     encode=huffdict
     Q=query
@@ -224,7 +241,7 @@ def algorithm (query, huffdict, lookup):
             numpass=0
             prop=0.0
             i =0
-            syll=sylldict[lookup[int(chars)]]
+            syll=sylldict[chars]
             #for i in range(len(kmer)): #coded name kmer index
             while i <=len(kmer):
                 if i==len(kmer):
@@ -360,7 +377,7 @@ print 'PREPROCESSING FINISHED'
 firstanswers=dict()
 lastanswers=dict()
 def cutdict(dic):
-    for g in (sorted(dic,key=dic.get,reverse=False)[50:]):
+    for g in (sorted(dic,key=dic.get,reverse=False)[500:]):
         dic.pop(g)
 
 '''PULL QUEUE CONTENTS FROM FILE'''

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40f65248-9103-4d4e-a5e7-8a4239e5bfad" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\.idea\workspace.xml" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\311AFD7B" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\33A18391" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\38C88BDB" afterPath="" />
@@ -17,9 +16,9 @@
       <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\CC965C92" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\F17ED5D6" afterPath="" />
       <change type="DELETED" beforePath="C:\Users\Agilex01\Projects\Project 2-Namematching\DataSet\examples_files\Search Algorithm\R-code\.Rproj.user\EAC49042\sdb\s-B2AC2BF9\lock_file" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/r1.txt" afterPath="$PROJECT_DIR$/r1.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/r2.txt" afterPath="$PROJECT_DIR$/r2.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/altHuff.py" afterPath="$PROJECT_DIR$/altHuff.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/r3.txt" afterPath="$PROJECT_DIR$/r3.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Search Algorithm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,8 +44,8 @@
       <file leaf-file-name="altHuff.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/altHuff.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.79532164" vertical-offset="2142" max-vertical-offset="7548">
-              <caret line="166" column="54" selection-start-line="166" selection-start-column="54" selection-end-line="166" selection-end-column="54" />
+            <state vertical-scroll-proportion="8.151188" vertical-offset="0" max-vertical-offset="7837">
+              <caret line="222" column="12" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
               <folding>
                 <element signature="e#21#33#0" expanded="true" />
               </folding>
@@ -487,7 +486,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3273743" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -497,7 +496,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3984375" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3899782" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45982143" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4368715" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -600,7 +599,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1908" max-vertical-offset="2737">
           <caret line="124" column="14" selection-start-line="124" selection-start-column="14" selection-end-line="124" selection-end-column="14" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -653,7 +652,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="974" max-vertical-offset="2312">
           <caret line="75" column="29" selection-start-line="75" selection-start-column="29" selection-end-line="75" selection-end-column="29" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -907,7 +906,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="7768" max-vertical-offset="8211">
           <caret line="15" column="27" selection-start-line="15" selection-start-column="27" selection-end-line="15" selection-end-column="27" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -922,8 +921,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/altHuff.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.79532164" vertical-offset="2142" max-vertical-offset="7548">
-          <caret line="166" column="54" selection-start-line="166" selection-start-column="54" selection-end-line="166" selection-end-column="54" />
+        <state vertical-scroll-proportion="8.151188" vertical-offset="0" max-vertical-offset="7837">
+          <caret line="222" column="12" selection-start-line="222" selection-start-column="12" selection-end-line="222" selection-end-column="12" />
           <folding>
             <element signature="e#21#33#0" expanded="true" />
           </folding>
