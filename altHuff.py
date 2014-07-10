@@ -410,7 +410,8 @@ for i in range(imin,imax):
     else:
         firstresults=algorithm(dataf,encodefirsts,lookupf)
         cutdict(firstresults)
-        firstanswers[dataf]=firstresults
+        if len(firstanswers)<180:
+            firstanswers[dataf]=firstresults
     print 'FIRST-TIME: %s'%(time.time()-stime)
     mtime=time.time()
     if datag in lastanswers:
@@ -418,7 +419,8 @@ for i in range(imin,imax):
     else:
         lastresults=algorithm(datag,encodelasts,lookupl)
         cutdict(lastresults)
-        lastanswers[datag]=lastresults
+        if len(lastanswers)<180:
+            lastanswers[datag]=lastresults
     print 'LAST-TIME: %s'%(time.time()-mtime)
     rtime=time.time()
     print "RECONCILING RESULTS..."
