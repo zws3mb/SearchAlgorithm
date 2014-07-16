@@ -3,10 +3,12 @@ import Queue
 import threading
 import time
 import numpy as numpy
-__author__ = 'seidz'
 from heapq import heappush, heappop, heapify
 from collections import defaultdict
 
+###Function used to create the huffman encoding
+###symb2freq--dictionary of key,frequencies
+###returns-
 def encode(symb2freq):
     """Huffman encode the given dict mapping symbols to weights"""
     heap = [[wt, [sym, ""]] for sym, wt in symb2freq.items()]
@@ -21,14 +23,19 @@ def encode(symb2freq):
         heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
     return sorted(heappop(heap)[1:], key=lambda p: (len(p[-1]), p))
 
-def onecount(value): #count the number of 1's in a binary sequence.
+###Function used to count the number of 1's in a given integer
+###value-integer to be counted
+###returns-count, integer of 1's in value
+def onecount(value):
     count=0;
     while(value!=0):
-        value = value&(value-1);
+        value = value&(value-1);    #binary and'ing skips non-1 places
         count=count+1;
     return count
 
-
+###Function outputting syllable markers for a string
+###name-string input for syllabification
+###returns-temp, int array
 vowels=['A','E','I','O','U','Y','AE','AI','AO','AU','AY','EA','EI','EO','EU','EY','IO','IU','IY','OA','OE','OI','OU','OY','UA','UE','UI','UY']
 def syllable(name):         #crude syllabification
     first=False
@@ -50,18 +57,19 @@ def syllable(name):         #crude syllabification
         temp.append(syll)
     return temp
 
-
-def freqToTree(filename):       #utility to convert lines of element\tfreq into a dictionary
-    #Building the Huffman tree
-    infile=open(filename,'r') #input the frequencies
+###Function to manage IO of a tab-separated frequency file (element\tfreq) into a dictionary
+###filename-string frequency filename
+###returns-symb2freq, defaultdict of String key=element, int value=frequency
+def freqToTree(filename):
+    infile=open(filename,'r')
     symb2freq=defaultdict()
     for line in infile:
         kmer,freq=line.split('\t')
         try:
-            freq=int(freq)
+            freq=int(freq)      #invalid frequencies are silently ignored
         except ValueError:
             continue
-        symb2freq[kmer]=freq                #store the frequency with the kmer
+        symb2freq[kmer]=freq
     return symb2freq
 
 
@@ -134,8 +142,6 @@ def loadNames(lookupf,lookupl):
     names.close()
 
 loadNames(lookupf, lookupl)
-# lookupf=[None]*(900000)
-# lookupl=[None]*(900000)
 #Encode each of the names according to the huffman tree
 encodefirsts=dict()
 
@@ -193,7 +199,7 @@ for index,kmer in encodelasts.iteritems():
 # encodelasts=numpy.array([(k,)+numpy.asarray(v) for k,v in encodelasts.iteritems()])
 
 
-outfile=open('f3.txt','a')
+outfile=open('f2.txt','a')
 def reconcile(iq,firstres,lastres):
     output=0
     attempt=0
@@ -381,7 +387,7 @@ def cutdict(dic):
         dic.pop(g)
 
 '''PULL QUEUE CONTENTS FROM FILE'''
-dataFile = open('q3.txt','r')
+dataFile = open('q2.txt','r')
 firstqs=dict()
 lastqs=dict()
 for eachLine in dataFile:
